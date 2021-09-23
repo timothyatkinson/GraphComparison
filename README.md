@@ -35,4 +35,4 @@ Now you can run the code by executing *./eggp*.
 
 ### How can I contact you?
 
-Feel free to send an email to my university address; tja511@york.ac.uk
+Feel free to send an email to my current address; timothy@nnaisense.com

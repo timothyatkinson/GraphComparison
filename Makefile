@@ -1,8 +1,8 @@
-PGP2DIR = /YOUR/PGP2/INSTALL/DIR/
+PGP2DIR = /home/tim/Documents/P-GP2_Install
 INCDIR= $(PGP2DIR)/include/
 LIBDIR= $(PGP2DIR)/lib/
 GP2_OBJECTS = eggp_init eggp_mutate_node eggp_mutate_edge
-OBJECTS := common_functions.c evolutionary_algorithm.c generic_operators.c utils.c eggp.c $(mainfile)
+OBJECTS := common_functions.c evolutionary_algorithm.c generic_operators.c utils.c eggp.c algorithms.c fast_genops.c $(mainfile)
 CC=gcc
 
 CFLAGS = -I$(INCDIR) -L $(LIBDIR) -O2 -lgp2 -lm -g
