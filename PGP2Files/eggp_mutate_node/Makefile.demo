@@ -1,0 +1,15 @@
+INCDIR=/home/tim/Documents/P-GP2_Install/include
+LIBDIR=/home/tim/Documents/P-GP2_Install/lib
+OBJECTS := $(patsubst %.c, %.o, $(wildcard *.c))
+CC=gcc
+
+CFLAGS = -I$(INCDIR) -L$(LIBDIR) -fomit-frame-pointer -O2 -Wall -Wextra -lgp2 -lm
+
+default:	$(OBJECTS)
+		$(CC) $(OBJECTS) $(CFLAGS) -o gp2run
+
+%.o:		%.c
+		$(CC) -c $(CFLAGS) -o $@ $<
+
+clean:	
+		rm *

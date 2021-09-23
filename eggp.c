@@ -3,6 +3,7 @@ Code for the legwork of EGGP. All hooks into evolutionary_algorithm.c.
 */
 
 #include "eggp.h"
+#include "fast_genops.h"
 #include "PGP2Files/eggp_mutate_edge/eggp_mutate_edge.h"
 #include "PGP2Files/eggp_mutate_node/eggp_mutate_node.h"
 #include "PGP2Files/eggp_init/eggp_init.h"
@@ -35,7 +36,7 @@ Returns:
   GP_1_plus_lambda_env* env. The generated environment.
   By default,
   the population size is 5,
-  mutation rate is 0.01, 
+  mutation rate is 0.01,
   neutral drift enabled and
   maximisation disabled.
 */
@@ -117,17 +118,19 @@ Graph** eggp_init(uintptr_t env_pointer){
   Graph** population = malloc(pop_size * sizeof(Graph*));
 
   for(int i = 0; i < pop_size; i++){
+
+    population[i] = init_fast(inputs, nodes, outputs, fset);
     //Prepare empty graph
-    population[i] = build_empty_host_graph();
+    //population[i] = build_empty_host_graph();
 
     //Load graph with variables
-    prepare_graph_init(population[i], fset, inputs, outputs, nodes);
+    //prepare_graph_init(population[i], fset, inputs, outputs, nodes);
 
     //Generate EGGP individuals
-    eggp_init_execute(population[i]);
+    //eggp_init_execute(population[i]);
 
     //Cleanup graph (removing meta data from prepare_graph_init)
-    clean_graph_init(population[i]);
+    //clean_graph_init(population[i]);
   }
   //Return
   return population;
@@ -139,9 +142,9 @@ Graph* eggp_mutate(Graph* host, Function_Set* fset, double mutation_rate){
   Graph* new_graph = duplicate_graph(host);
 
   //Prepare the graph by loading in function set
-  prepare_graph_mutate(new_graph, fset);
-  int nodes = new_graph->nodes.size;
-  int edges = new_graph->edges.size;
+  //prepare_graph_mutate(new_graph, fset);
+  int nodes = 100;
+  int edges = new_graph->number_of_edges;
   int mutations = 0;
   int num = new_graph->nodes.size + new_graph->edges.size;
 
@@ -150,28 +153,29 @@ Graph* eggp_mutate(Graph* host, Function_Set* fset, double mutation_rate){
     if(r <= mutation_rate){
       double r2 = ((double)rand() / (double)RAND_MAX);
       if(r2 <= ((double)edges / (double)(num))){
-        eggp_mutate_edge_execute(new_graph);
+        edge_mutation_fast(new_graph);
         mutations++;
       }
       else{
-        eggp_mutate_node_execute(new_graph);
+        node_mutation_fast(new_graph, fset);
         mutations++;
       }
     }
   }
 
   if(mutations == 0){
+    mutations += 1;
     double r = ((double)rand() / (double)RAND_MAX);
     if(r <= ((double)edges / (double)(num))){
-      eggp_mutate_edge_execute(new_graph);
+      edge_mutation_fast(new_graph);
     }
     else{
-      eggp_mutate_node_execute(new_graph);
+      node_mutation_fast(new_graph, fset);
     }
   }
 
   //Clean graph (removing meta data from prepare_graph_mutate)
-  clean_graph_mutate(new_graph);
+  //clean_graph_mutate(new_graph);
 
   return new_graph;
 }

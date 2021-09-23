@@ -71,8 +71,8 @@ double gp_evaluate(Graph* host_graph, GP_Dataset* dataset, Function_Set* fset){
 
      HostListItem *item = label.list->first;
      HostListItem *item2 = label.list->last;
-     if(item->atom.type != 'i') break;
-     if(item2->atom.type != 's') break;
+     if(item->atom.type != 'i') continue;
+     if(item2->atom.type != 's') continue;
      if(strcmp(item2->atom.str, "IN") == 0){
        inputIndex[item->atom.num] = host_index;
      }
@@ -506,8 +506,8 @@ double gp_print_evaluate(Graph* host_graph, GP_Dataset* dataset, Function_Set* f
 
      HostListItem *item = label.list->first;
      HostListItem *item2 = label.list->last;
-     if(item->atom.type != 'i') break;
-     if(item2->atom.type != 's') break;
+     if(item->atom.type != 'i') continue;
+     if(item2->atom.type != 's') continue;
      if(strcmp(item2->atom.str, "IN") == 0){
        inputIndex[item->atom.num] = host_index;
      }
@@ -610,31 +610,11 @@ double gp_print_evaluate(Graph* host_graph, GP_Dataset* dataset, Function_Set* f
     }
   }
 
-  double error[rows];
-	for(int r = 0; r < rows; r++){
-    error[r] = 0.0;
-  }
   for(int o = 0; o < outputs; o++){
 		for(int r = 0; r < rows; r++){
-			//printf("Expected %lf got %lf diff %lf\n", data[r][inputs + o], values[r][outputIndex[o]], fabs(values[r][outputIndex[o]] - data[r][inputs + o]));
+			printf("Expected %lf got %lf diff %lf\n", dataset->data[r][inputs + o], values[r][outputIndex[o]], fabs(values[r][outputIndex[o]] - dataset->data[r][inputs + o]));
     	totalError = totalError + fabs(values[r][outputIndex[o]] - dataset->data[r][inputs + o]);
-      error[r] = error[r] + fabs(values[r][outputIndex[o]] - dataset->data[r][inputs + o]);
 		}
-  }
-  for(int r = 0; r < rows; r++){
-        for(int i = 0; i < inputs; i++){
-          printf("%lf, ", dataset->data[r][i]);
-        }
-        printf(" => [");
-        for(int i = 0; i < outputs; i++){
-          printf("%lf,", dataset->data[r][inputs + i]);
-        }
-        printf("] vs. [");
-        for(int i = 0; i < outputs; i++){
-          printf("%lf,", values[r][outputIndex[i]]);
-        }
-        printf("] error = %lf\n", error[r]);
-  			//printf("Expected %lf got %lf diff %lf\n", data[r][inputs + o], values[r][outputIndex[o]], fabs(values[r][outputIndex[o]] - data[r][inputs + o]));
   }
 	unmark_graph(host_graph);
   return totalError;

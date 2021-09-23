@@ -36,6 +36,7 @@ void add_function(Function_Set* fset, string name, int arity, double (*func)(dou
 Function* get_function(Function_Set* fset, string name);
 void freeFset(Function_Set* fset);
 double common_and(double* inputs);
+double common_andi(double* inputs);
 double common_or(double* inputs);
 double common_nand(double* inputs);
 double common_nor(double* inputs);

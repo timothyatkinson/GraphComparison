@@ -96,6 +96,9 @@ Function_Set* get_common_fset(string fsetV){
         if(strcmp(name, "and") == 0){
           add_function(fset, "AND", 2, common_and);
         }
+        if(strcmp(name, "andi") == 0){
+          add_function(fset, "ANDI", 2, common_andi);
+        }
         else if(strcmp(name, "or") == 0){
           add_function(fset, "OR", 2, common_or);
         }
@@ -140,6 +143,9 @@ Function_Set* get_common_fset(string fsetV){
         }
         else if(strcmp(name, "log") == 0){
           add_function(fset, "LOG", 1, common_log);
+        }
+        else if(strcmp(name, "ln") == 0){
+          add_function(fset, "LN", 1, common_log);
         }
         else{
           printf("Unknown function %s\n", name);
@@ -197,6 +203,13 @@ double common_and(double* inputs){
     bool i0 = (inputs[0] == 1.0);
     bool i1 = (inputs[1] == 1.0);
     return i0 && i1;
+}
+
+double common_andi(double* inputs){
+    boolcheck(inputs, 2);
+    bool i0 = (inputs[0] == 1.0);
+    bool i1 = (inputs[1] == 1.0);
+    return i0 && !i1;
 }
 
 double common_or(double* inputs){
