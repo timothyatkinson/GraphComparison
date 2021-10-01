@@ -1,6 +1,6 @@
 # Evolving Graphs by Graph Programming
 
-A public repository for EGGP, maintained by Timothy Atkinson. This short FAQ should help you get started - otherwise, my contact information is at the bottom.
+A public repository for EGGP, maintained by Timothy Atkinson. This repository contains the code used for experiments in [A study on Graph Representations for Genetic Programming](https://dl.acm.org/doi/abs/10.1145/3377930.3390234). Note that work carried out in the later publication [Graph Representations in Genetic Programming](https://link.springer.com/article/10.1007%2Fs10710-021-09413-9) was implemented using an adaption of Paul Kaufmann's [CGP implementation](https://github.com/paul-kaufmann/cgp) and he should be contacted directly (paul.kaufmann@uni-mainz.de) for access to this implementation. This short FAQ should help you get started - otherwise, my contact information is at the bottom.
 
 ### What is EGGP?
 
